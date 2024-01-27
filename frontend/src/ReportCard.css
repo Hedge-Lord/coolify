@@ -55,6 +55,7 @@ body {
   height: 20px;
   background-color: #fff; /* Color for the bar representing the grade */
   border-radius: 16px 0 0 16px; 
+  animation: fillBar 2s ease forwards;
 }
 
 .final-grade-section {
@@ -87,4 +88,93 @@ body {
 
 .logout-button:focus {
   outline: none;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateX(40%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.row-entrance {
+  animation: swipeInFromRight 0.8s ease-out forwards;
+}
+
+.fade-in-1 {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.fade-in-2 {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+  animation-delay: 0.8s;
+}
+
+.fade-in-3 {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+  animation-delay: 1.6s;
+}
+
+.fade-in-4 {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+  animation-delay: 2.4s;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin-bottom: 80px;
+}
+
+.spinner::before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120px; /* This is the diameter of the spinner */
+  height: 120px; /* This is the diameter of the spinner */
+  margin-top: -60px; /* Offset to the center of the spinner */
+  margin-left: -60px; /* Offset to the center of the spinner */
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: rgba(255, 255, 255, 0.7); 
+  animation: spin 2.6s infinite ease-in-out;
+}
+
+@keyframes spin {
+  0%, 100% {
+    transform: rotate(0deg);
+    border-width: 4px;
+  }
+  50% {
+    transform: rotate(720deg); 
+    border-width: 8px; 
+  }
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; 
+}
+
+@keyframes fillBar {
+  from {
+    width: 0;
+  }
+  to {
+    width: var(--width, 100%);
+  }
 }

@@ -1,10 +1,15 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from flask_cors import CORS, cross_origin
+from flask_pymongo import PyMongo
 from rymscraper import scraper
+import logging
 
 app = Flask(__name__)
-CORS(app)
-rymscraper = scraper.Scraper()
+app.config["MONGO_URI"] = "mongodb+srv://user:mypassword123@myatlasclusteredu.eiepfa0.mongodb.net/test"
+mongo = PyMongo(app)
+
+logging.basicConfig(level=logging.DEBUG, 
+                    format='%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
 
 @app.route('/')
 def index():
@@ -15,9 +20,38 @@ def print_name(name):
     return f'Hi, {name}'
 
 @app.route('/artists/<artist>')
-@cross_origin()
 def get_artist_info(artist):
-    return jsonify(rymscraper.get_artist_info(artist))
+    artist_collection = mongo.db.artists
+    query_res = artist_collection.find_one({"name": artist})
+
+    if query_res:
+        artist_info = query_res['info']
+    else:
+        try:
+            with scraper.Scraper() as rymscraper:
+                artist_info = rymscraper.get_artist_info(artist)
+                artist_collection.insert_one({'name': artist, 'info': artist_info})
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            response = make_response(jsonify({"error": "An error occurred while fetching artist information"}), 500)
+            response.headers['Access-Control-Allow-Origin'] = '*'  
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST'  
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization' 
+            return response
+    response = make_response(jsonify(artist_info))
+    response.headers['Access-Control-Allow-Origin'] = '*'  
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST'  
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'  
+    return response
+    
+@app.route('/test')
+def test():
+    testing_collection = mongo.db.testing
+    testing_collection.insert_one({'name': 'John Cena'})
+    print(testing_collection.find_one({'name':'John Cena'}))
+    print(testing_collection.find_one({'name':'Zhong Xina'}))
+    return "Added item to MongoDB."
+
 
 if __name__ == "__main__":
     app.run(debug=True)

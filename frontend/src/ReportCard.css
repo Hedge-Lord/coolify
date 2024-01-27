@@ -1,0 +1,90 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+body::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow-y: scroll;
+}
+
+.report-card-container {
+  width: 40vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.grade-row {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.grade-info {
+  flex-basis: 50%; 
+  text-align: left;
+}
+
+.grade-bar-container {
+  height: 20px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1); /* Background for the bar container */
+  border-radius: 16px;
+  overflow: hidden; /* Ensures the inner bar doesn't exceed the border radius */
+}
+
+.grade-bar {
+  height: 20px;
+  background-color: #fff; /* Color for the bar representing the grade */
+  border-radius: 16px 0 0 16px; 
+}
+
+.final-grade-section {
+  width: 100%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 2em;
+  text-align: center;
+}
+
+.logout-button {
+  position: absolute; /* Position the button absolutely */
+  top: 30px; /* 20px from the top */
+  right: 40px; /* 20px from the right */
+  background-color: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.logout-button:focus {
+  outline: none;
+}

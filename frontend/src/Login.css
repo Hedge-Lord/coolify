@@ -1,4 +1,3 @@
-/* Reset some default styling */
 * {
     margin: 0;
     padding: 0;
@@ -6,9 +5,9 @@
   }
   
   body {
-    font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif; /* Spotify often uses Gotham, substitute with Arial if unavailable */
-    background-color: #121212; /* Spotify dark background */
-    color: #fff; /* Light text */
+    font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif; 
+    background-color: #121212; 
+    color: #fff; 
     height: 100vh;
     display: flex;
     align-items: center;
@@ -18,16 +17,7 @@
   .main-container {
     text-align: center;
   }
-  
-  .content {
-    transform: translateY(-50%);
-  }
-  
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-  }
-  
+
   .login-button {
     background-color: #1DB954; /* Spotify green */
     color: #fff;
@@ -46,4 +36,24 @@
   .login-button:focus {
     outline: none;
   }
+
+  @keyframes fadeInLogin {
+    from {
+      transform: translateY(60%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
   
+  .fade-in-login {
+    opacity: 0;
+    animation: fadeInLogin 0.4s ease-out forwards;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }

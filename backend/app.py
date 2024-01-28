@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, make_response
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from flask_pymongo import PyMongo
 from rymscraper import scraper
 import logging
@@ -7,17 +7,10 @@ import logging
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb+srv://user:mypassword123@myatlasclusteredu.eiepfa0.mongodb.net/test"
 mongo = PyMongo(app)
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 logging.basicConfig(level=logging.DEBUG, 
                     format='%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-
-@app.route('/')
-def index():
-    return "Hello World, This is the Index."
-
-@app.route('/<name>')
-def print_name(name):
-    return f'Hi, {name}'
 
 @app.route('/artists/<artist>')
 def get_artist_info(artist):
@@ -34,24 +27,9 @@ def get_artist_info(artist):
         except Exception as e:
             print(f"Error occurred: {e}")
             response = make_response(jsonify({"error": "An error occurred while fetching artist information"}), 500)
-            response.headers['Access-Control-Allow-Origin'] = '*'  
-            response.headers['Access-Control-Allow-Methods'] = 'GET, POST'  
-            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization' 
             return response
     response = make_response(jsonify(artist_info))
-    response.headers['Access-Control-Allow-Origin'] = '*'  
-    response.headers['Access-Control-Allow-Methods'] = 'GET, POST'  
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'  
     return response
-    
-@app.route('/test')
-def test():
-    testing_collection = mongo.db.testing
-    testing_collection.insert_one({'name': 'John Cena'})
-    print(testing_collection.find_one({'name':'John Cena'}))
-    print(testing_collection.find_one({'name':'Zhong Xina'}))
-    return "Added item to MongoDB."
-
 
 if __name__ == "__main__":
     app.run(debug=True)

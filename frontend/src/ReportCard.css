@@ -1,3 +1,17 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+#root::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+
 html, body {
   margin: 0;
   padding: 0;
@@ -5,6 +19,7 @@ html, body {
   width: 100%;
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body::-webkit-scrollbar { 
@@ -16,6 +31,7 @@ body {
   color: #fff;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -23,39 +39,57 @@ body {
 }
 
 .report-card-container {
-  width: 40vw;
+  width: 280px;
   height: 100vh;
   display: flex;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 160px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+#grades-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+}
+
 .grade-row {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   margin-top: 20px;
 }
 
 .grade-info {
-  flex-basis: 50%; 
+  flex-basis: 40%; 
   text-align: left;
 }
 
 .grade-bar-container {
-  height: 20px;
+  height: 10px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.1); /* Background for the bar container */
-  border-radius: 16px;
-  overflow: hidden; /* Ensures the inner bar doesn't exceed the border radius */
+  background-color: rgba(255, 255, 255, 0.1); 
+  border-radius: 4px;
+  overflow: hidden; 
 }
 
 .grade-bar {
-  height: 20px;
-  background-color: #fff; /* Color for the bar representing the grade */
-  border-radius: 16px 0 0 16px; 
+  height: 100%;
+  background-color: #fff; 
+  border-radius: 4px;
   animation: fillBar 2s ease forwards;
+}
+
+.grade-bar-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
 }
 
 .final-grade-section {
@@ -101,10 +135,6 @@ body {
   }
 }
 
-.row-entrance {
-  animation: swipeInFromRight 0.8s ease-out forwards;
-}
-
 .fade-in-1 {
   opacity: 0;
   animation: fadeIn 1s ease-out forwards;
@@ -141,10 +171,10 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 120px; /* This is the diameter of the spinner */
-  height: 120px; /* This is the diameter of the spinner */
-  margin-top: -60px; /* Offset to the center of the spinner */
-  margin-left: -60px; /* Offset to the center of the spinner */
+  width: 120px; 
+  height: 120px; 
+  margin-top: -60px;
+  margin-left: -60px; 
   border-radius: 50%;
   border: 3px solid transparent;
   border-top-color: rgba(255, 255, 255, 0.7); 
@@ -177,4 +207,98 @@ body {
   to {
     width: var(--width, 100%);
   }
+}
+
+.score {
+  font-size: large;
+  margin-left: auto;
+}
+
+.final {
+  font-size: larger;
+  color: #caf9ff;
+}
+
+.grade-bar-final {
+  height: 100%;
+  background-color: #caf9ff; 
+  border-radius: 4px 0 0 4px; 
+  animation: fillBar 2s ease forwards;
+}
+
+h2 {
+  font-weight: lighter;
+}
+
+.final-title {
+  margin-top: 14px;
+  margin-bottom: -18px;
+}
+
+.final-num {
+  margin-bottom: 10px;
+}
+
+.spotify-logo {
+  position: relative;
+  width: 60%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+h1.card-header {
+  width: 500px;
+  margin: 0;
+}
+
+h2.plug-link {
+  font-size: 18px;
+  margin: 0;
+}
+
+div.header {
+  position: relative;
+  bottom: 30px;
+}
+
+@keyframes fadeInBreakdown {
+  from {
+    transform: translateY(15%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+div.ratings-breakdown {
+  width: 80vw;
+  max-width: 320px;
+  margin-top: 48px;
+  margin-bottom: 50px;
+  text-align: left;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  animation: fadeInBreakdown 1s ease-out forwards;
+  animation-delay: 3.2s;
+}
+
+section {
+  margin-top: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.rating-breakdown {
+  font-weight: bold;
+}
+
+h3 {
+  margin-bottom: 6px;
 }

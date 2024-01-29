@@ -18,29 +18,33 @@ const base64encode = (input) => {
 }
 
 export const initiateAuth = async () => {
-    const codeVerifier = generateRandomString(64);
-    const hashed = await sha256(codeVerifier);
-    const codeChallenge = base64encode(hashed);
+    try {
+        const codeVerifier = generateRandomString(64);
+        const hashed = await sha256(codeVerifier);
+        const codeChallenge = base64encode(hashed);
+        
+        const clientId = '16bb9bd16b4b44e1acebbf21d88dadf1';
+        const redirectUri = 'http://localhost:3000';
+        const scope = 'user-top-read';
+        
+        const authUrl = new URL("https://accounts.spotify.com/authorize");
+        const params = {
+            response_type: 'code',
+            client_id: clientId,
+            scope,
+            code_challenge_method: 'S256',
+            code_challenge: codeChallenge,
+            redirect_uri: redirectUri,
+        };
+        
+        authUrl.search = new URLSearchParams(params).toString();
     
-    const clientId = '16bb9bd16b4b44e1acebbf21d88dadf1';
-    const redirectUri = 'http://localhost:3000';
-    const scope = 'user-top-read';
+        window.localStorage.setItem('code_verifier', codeVerifier);
     
-    const authUrl = new URL("https://accounts.spotify.com/authorize");
-    const params = {
-        response_type: 'code',
-        client_id: clientId,
-        scope,
-        code_challenge_method: 'S256',
-        code_challenge: codeChallenge,
-        redirect_uri: redirectUri,
-    };
-    
-    authUrl.search = new URLSearchParams(params).toString();
-
-    window.localStorage.setItem('code_verifier', codeVerifier);
-
-    window.location.href = authUrl.toString();
+        window.location.href = authUrl.toString();
+    } catch (error) {
+        console.error('Error during authentication:', error);
+    }
 };
 
 export const handleAuthRedirect = async () => {

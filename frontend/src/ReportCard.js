@@ -16,18 +16,8 @@ export default function ReportCard() {
         getRatings();
     }, []);
 
-    const handleLogout = () => {
-        if (window.localStorage.access_token) window.localStorage.removeItem('access_token');
-        window.location.reload();
-    }
-
     return ratings ? (
         <>
-            <button 
-            className='logout-button'
-            onClick={handleLogout}>
-                Log Out
-            </button>
             <Card grades={ratings ? ratings : {}}/>
             <div className='ratings-breakdown'> 
                 <RatingsBreakdown ratings={ratings ? ratings : {}} />
@@ -43,8 +33,17 @@ export default function ReportCard() {
 }
 
 function Card({ grades }) {
+    const handleLogout = () => {
+      if (window.localStorage.access_token) window.localStorage.removeItem('access_token');
+      window.location.reload();
+    }
     return (
         <div className="report-card-container">
+            <button 
+            className='logout-button'
+            onClick={handleLogout}>
+                Log Out
+            </button>
             <div className="header">
                 <h1 className="card-header"> rate my spotify. </h1>
                 <h2 className="plug-link"> at coolify.app </h2>

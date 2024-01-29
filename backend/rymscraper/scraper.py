@@ -1,3 +1,4 @@
+import os
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
@@ -9,9 +10,12 @@ import time
 
 class Scraper:
     def __init__(self):
+        firefox_bin = os.environ.get('FIREFOX_BIN') or '/usr/local/bin/firefox'
+        geckodriver_path = os.environ.get('GECKODRIVER_PATH') or '/usr/local/bin/geckodriver'
         options = Options()
+        options.binary_location = firefox_bin
         options.add_argument('-headless')
-        self.driver = webdriver.Firefox(options=options)
+        self.driver = webdriver.Firefox(executable_path=geckodriver_path, options=options)
 
     def __del__(self):
         self.driver.quit()
@@ -37,8 +41,9 @@ class Scraper:
                 return "https://rateyourmusic.com" + link['href']
         except Exception as e:
             print(f"Error getting artist URL: {e}")
+            return None
         except:
-            None
+            return None
 
 
     def get_artist_soup(self, artist):
@@ -54,8 +59,9 @@ class Scraper:
                 return BeautifulSoup(self.driver.page_source, 'html.parser')
             except Exception as e:
                 print(f"Error getting artist soup: {e}")
+                return None
             except:
-                None
+                return None
 
     def get_artist_info(self, artist):
         try:
@@ -90,12 +96,12 @@ class Scraper:
                 country = self.get_artist_country(soup)
                 return {'albums': album_info, 'genres': genres, 'country': country}
             else:
-                return {}
+                return None
 
         except Exception as e:
-            return f"An error occurred: {e}"
+            return None 
         except:
-            None
+            return None
         
     def get_artist_genres(self, soup):
         genres = soup.find_all('a', class_='genre')
@@ -112,7 +118,7 @@ class Scraper:
         except NoSuchElementException:
             return None
         except:
-            None
+            return None
     
 def get_search_url(query):
     return "https://rateyourmusic.com/search?searchterm=" + ("+".join(query.split()))

@@ -10,7 +10,11 @@ mongo = PyMongo(app)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 logging.basicConfig(level=logging.DEBUG, 
-                    format='%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+                    format='%(message)s [in %(pathname)s:%(lineno)d]')
+
+@app.route('/')
+def hello():
+    return "Hello, World!"
 
 @app.route('/artists/<artist>')
 def get_artist_info(artist):
@@ -32,4 +36,4 @@ def get_artist_info(artist):
     return response
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8000)

@@ -6,6 +6,7 @@ function Login({ onLoginSuccess }) {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
+        console.log(code, urlParams);
 
         if (code) {
             handleAuthRedirect()
@@ -20,10 +21,14 @@ function Login({ onLoginSuccess }) {
         }
     }, []);
 
-    const handleLogin = () => {
-        initiateAuth();
-        window.location.reload(true);
-    };
+    const handleLogin = async () => {
+      try {
+          await initiateAuth();
+          // No need to reload the page here
+      } catch (error) {
+          console.error('Error during authentication:', error);
+      }
+  };
 
     return (
       <div className="main-container">

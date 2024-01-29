@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
+  overflow-x: hidden;
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
 }
@@ -103,9 +104,9 @@ body {
 }
 
 .logout-button {
-  position: absolute; /* Position the button absolutely */
-  top: 30px; /* 20px from the top */
-  right: 40px; /* 20px from the right */
+  position: relative; 
+  bottom: 130px;
+  right: -100px;
   background-color: rgba(0, 0, 0, 0.25);
   color: #fff;
   border: none;
@@ -244,6 +245,7 @@ h2 {
   width: 60%;
   height: auto;
   margin: 0;
+  margin-bottom: 80px;
   padding: 0;
 }
 

@@ -35,8 +35,34 @@ const generateRatings = async () => {
             };
     }
     catch(err) {
-        return { uniqueRating: "???", basedRating: "???", expansiveRating: "???",
-            finalRating: "???"
+        return { uniqueRating: {
+            artistRange: {
+                obscure: {
+                    name: "???",
+                    popularity: -1
+                },
+                popular: {
+                    name: "???",
+                    popularity: 99999
+                }
+            },
+            finalScore: "100",
+            range: 100
+        }, 
+        basedRating: {
+            bestArtist: {name: "???", maxRating: 5.00},
+            finalScore: "100"
+        }, 
+        expansiveRating: {
+            countries: ["???"],
+            finalScore: "100",
+            genreScore: 100, 
+            yearsInfo: {
+                avg: "0",
+                range: 1000,
+            },
+        },
+            finalRating: "0"
        };
     }
 }
@@ -86,13 +112,16 @@ const getTopTracksAndFeatures = async (fetchParams) => {
 const getRYMData = async (artists) => {
     const result = [];
     for (const artist of artists) {
-        const res = await fetch("http://127.0.0.1:5000/artists/" + artist.name, {mode: "cors"})
+
+        const res = await fetch("https://coolify-flask-f606dbca3a1d.herokuapp.com/artists/" + artist.name, {mode: "cors"})
         if (!res.ok) {
             console.log("Error fetching from scraper API");
-            return null;
+            continue;
         }
         const artistData = await res.json();
-        if (artistData && typeof(artistData) !== 'object') continue;
+        console.log(artistData);
+
+        if (!artistData || typeof(artistData) !== 'object') continue;
 
         artistData.albums = artistData.albums.map(album => {
             return {
@@ -104,7 +133,7 @@ const getRYMData = async (artists) => {
         artistData.name = artist.name;
         result.push(artistData);
     }
-    console.log(result);
+    // console.log(result);
     return result;
 }
 
@@ -126,8 +155,6 @@ const calculateUniqueness = async (artists, tracks) => {
     })
     const range = mostPopular.popularity - mostObscure.popularity;
 
-    console.log(popularityScores);
-
     const artistRange = {
         obscure: {
             popularity: mostObscure.popularity,
@@ -137,6 +164,8 @@ const calculateUniqueness = async (artists, tracks) => {
             popularity: mostPopular.popularity,
             name: mostPopular.name
         }};
+
+    // console.log(artistRange);
 
     const filledBuckets = [false, false, false];
     popularityScores.forEach(score => {
@@ -165,7 +194,7 @@ const calculateUniqueness = async (artists, tracks) => {
 }
 
 const calculateBasedOnCriticRatings = async (artists) => {
-    if (!artists) {
+    if (artists === null || artists === undefined) {
         console.log("Error in calculating critic ratings: Artists is null");
         return null;
     }
@@ -192,7 +221,7 @@ const calculateBasedOnCriticRatings = async (artists) => {
         return {
             finalScore: "110",
             bestArtist: {
-                name: "???",
+                name: "NOT_FOUND",
                 maxRating: "???"
             }
         }
@@ -267,7 +296,7 @@ const calculateExpansiveness = async (artistsRYM, artistsSpotify, tracks) => {
 
     let yearsScore = ss.mean([stdevScore, bucketScore, rangeScore]);
 
-    console.log(Object.keys(genres).length, genreTokenCount)
+    // console.log(Object.keys(genres).length, genreTokenCount)
     let genreScore = Object.keys(genres).length / genreTokenCount * 100;
     if (genreScore > 100) genreScore = 100;
 

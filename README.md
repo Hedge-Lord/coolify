@@ -1,5 +1,5 @@
 # coolify / ratemyspotify
-![image]([https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExd201bThzYjliNXFpbzF0czUyODR6eHVzdmU0ZmM2M3pxYm5mNndqZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7ab5VavPDPd1v0Ubrk/giphy.gif])
+![image](https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExd201bThzYjliNXFpbzF0czUyODR6eHVzdmU0ZmM2M3pxYm5mNndqZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7ab5VavPDPd1v0Ubrk/giphy.gif)
 
 [coolify is live!](https://d2owq8c4h5c8pu.cloudfront.net/) However, full Spotify API access has yet to be granted. 
 Currently, if you want to use coolify, you'll have to be added to the whitelisted users list. 
